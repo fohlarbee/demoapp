@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View , FlatList, Button, TextInput, Image} from 'react-native';
+import { StyleSheet, Text, View , FlatList, Button, TextInput, Image, TouchableWithoutFeedback, Keyboard} from 'react-native';
 // import Header from "./components/header";
 // import TodoItem from './components/todoItem';
 // import AddTodo from './components/addTodo';
@@ -10,7 +10,7 @@ export default function App(){
 
   const [revenue, setRevenue] = useState(0);
   const [expenses, setExpenses] = useState(0);
-  const [status, setStatus] = useState(false)
+  const [status, setStatus] = useState(false);
 
   const TaxCalculator = () =>{
     const profit = revenue - expenses;
@@ -31,30 +31,35 @@ export default function App(){
 
   }
   return(
-    <View style = {styles.container}>
-        <View style={styles.logoWrapper}>
-           <Image source={require("./assets/images/firs_image.jpg")} style={styles.logo}/>
-           <Text style={styles.heading}>Company Tax Calculator</Text>
-         </View>
+    <TouchableWithoutFeedback onPress={() => {
+        Keyboard.dismiss();
+        console.log("keyboard dismissed");
+    }}>
+      <View style = {styles.container}>
+          <View style={styles.logoWrapper}>
+            <Image source={require("./assets/images/firs_image.jpg")} style={styles.logo}/>
+            <Text style={styles.heading}>Company Tax Calculator</Text>
+          </View>
 
-         
-         {status === true ? TaxCalculator (): null}
-        <TextInput style ={styles.input}
-         placeholder="Total Revenue" 
-         onChangeText={(revenueInput) => setRevenue(revenueInput)}
-         />
-        <TextInput style ={styles.input}
-         placeholder="Total Expenses" 
-         onChangeText={(expensesInput) => setRevenue(expensesInput)}
-         />
+          
+          {status === true ? TaxCalculator (): null}
+          <TextInput style ={styles.input}
+          placeholder="Total Revenue" 
+          onChangeText={(revenueInput) => setRevenue(revenueInput)}
+          />
+          <TextInput style ={styles.input}
+          placeholder="Total Expenses" 
+          onChangeText={(expensesInput) => setExpenses(expensesInput)}
+          />
 
-         <Button title='CALCULATE TAX' onPress={() => {
-          TaxCalculator;
-          setStatus(true);
-          }}/>
+          <Button title='CALCULATE TAX' onPress={() => {
+            TaxCalculator;
+            setStatus(true);
+            }}/>
 
-        <StatusBar style ="auto"/>
-    </View>
+          <StatusBar style ="auto"/>
+      </View>
+    </TouchableWithoutFeedback>
 
   )
 }
